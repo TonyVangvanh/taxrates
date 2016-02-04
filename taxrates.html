@@ -1,0 +1,120 @@
+<html ng-app="AngularBills">
+    <head>
+        <!-- from Google Hosted Libraries -->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.17/angular.min.js"></script>
+        <script lang="javascript">
+        
+            var myModule = angular.module('AngularBills', []);
+            
+            myModule.controller('CostController',
+                function ($scope) {
+                    myModule.controller('CostController');
+                    
+                    var cc = this;
+                    
+                    cc.cost = 100.15;
+                    cc.add_tax = true;
+                    cc.total_bill = true;
+                    
+                    function update(){
+                        cc.tax = cc.add_tax ? cc.cost * 0.20 : 0.0;    
+                        cc.total = parseFloat(cc.cost) + cc.tax + cc.taxing.amount; 
+                    }
+                    //used to detect when cost changes
+                    $scope.$watch('cc.cost', update);
+                    $scope.$watch('cc.add_tax', update);
+                    $scope.$watch('cc.taxing', update);
+                    $scope.$watch('cc.cost + cc.tax', update);
+                    
+                    //final bill
+                    cc.final_bill = 0.0;
+                    cc.add = function add(){
+                        cc.final_bill += cc.total;   
+                    };
+                    
+                    //taxing options
+                    cc.taxing_options = [
+                      {amount:4.00, name:"Alabama"},
+                      {amount:0.00, name:"Alaska"},
+                      {amount:5.60, name:"Arizona"},
+                      {amount:6.50, name:"Arkansas"},
+                      {amount:7.50, name:"California"},
+                      {amount:2.90, name:"Colorado"},
+                      {amount:6.35, name:"Connecticut"},
+                      {amount:0.00, name:"Delaware"},
+                      {amount:5.75, name:"District of Columbia"},
+                      {amount:6.00, name:"Florida"},
+                      {amount:4.00, name:"Georgia"},
+                      {amount:4.00, name:"Hawaii"},
+                      {amount:6.00, name:"Idaho"},
+                      {amount:6.25, name:"Illinois"},
+                      {amount:7.00, name:"Indiana"},
+                      {amount:6.00, name:"Iowa"},
+                      {amount:6.50, name:"Kansas"},
+                      {amount:6.00, name:"Kentucky"},
+                      {amount:4.00, name:"Louisiana"},
+                      {amount:5.50, name:"Maine"},
+                      {amount:6.00, name:"Maryland"},
+                      {amount:6.25, name:"Massachusetts"},
+                      {amount:6.00, name:"Michigan"},
+                      {amount:6.87, name:"Minnesota"},
+                      {amount:7.00, name:"Mississippi"},
+                      {amount:4.23, name:"Missouri"},
+                      {amount:0.00, name:"Montana"},
+                      {amount:5.50, name:"Nebraska"},
+                      {amount:6.85, name:"Nevada"},
+                      {amount:0.00, name:"New Hampshire"},
+                      {amount:7.00, name:"New Jersey"},
+                      {amount:5.12, name:"New Mexico"},
+                      {amount:4.00, name:"New York"},
+                      {amount:4.75, name:"North Carolina"},
+                      {amount:5.00, name:"North Dakota"},
+                      {amount:5.75, name:"Ohio"},
+                      {amount:4.50, name:"Oklahoma"},
+                      {amount:0.00, name:"Oregon"},
+                      {amount:6.00, name:"Pennsylvania"},
+                      {amount:7.00, name:"Rhode Island"},
+                      {amount:6.00, name:"South Carolina"},
+                      {amount:4.00, name:"South Dakota"},
+                      {amount:7.00, name:"Tennessee"},
+                      {amount:6.25, name:"Texas"},
+                      {amount:4.70, name:"Utah"},
+                      {amount:6.00, name:"Vermont"},
+                      {amount:4.30, name:"Virginia"},
+                      {amount:6.50, name:"Washington"},
+                      {amount:6.00, name:"West Virginia"},
+                      {amount:5.00, name:"Wisconsin"},
+                      {amount:4.00, name:"Wyoming"}
+  
+                    ];
+                    
+                    cc.taxing = cc.taxing_options[0];
+                   
+                }
+            );
+        </script>
+    </head>
+    <body>
+        <div ng-controller="CostController as cc">
+            <input type="checkbox" ng-model="cc.add_tax" />Add Tax
+            <input type="checkbox" ng-model="cc.total_bill" />Show Total
+            <p>
+                Cost: <input type="text" ng-model="cc.cost" placeholder="cost" /><br/>
+                State Taxing: <select ng-model="cc.taxing" ng-options="s.name for s in cc.taxing_options"></select>
+            </p>
+            <p>
+                Total cost: {{cc.cost|currency}}
+            </p>
+            <p>
+                Tax: {{cc.tax|currency}}
+            </p>
+            <p ng-show="cc.total_bill">
+                Total: {{cc.total|currency}}
+                <button ng-click="cc.add()">Add</button>
+            </p>
+            <p ng-show="cc.total_bill">
+                Total Bills is {{cc.final_bill|currency}}
+            </p>
+        </div>
+    </body>
+</html>
